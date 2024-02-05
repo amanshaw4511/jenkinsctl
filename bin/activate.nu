@@ -32,7 +32,7 @@ export-env {
       }
     }
 
-    let virtual_env = '/home/aman.saw/scripts/jenkins'
+    let virtual_env = '/home/aman.saw/workspace/github/jenkinsctl'
     let bin = 'bin'
 
     let is_windows = ($nu.os-info.family) == 'windows'
