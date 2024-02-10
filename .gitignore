@@ -15,6 +15,7 @@ downloads/
 eggs/
 .eggs/
 bin/
+pyvenv.cfg
 lib/
 lib64/
 parts/
