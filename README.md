@@ -8,7 +8,7 @@ pip install jenkinsctl
 ```
 
 ## Configuration
-Add these configuration in you ~/.bashrc or ~/.zshrc file
+Add these lines in you ~/.bashrc or ~/.zshrc file
 ```sh
 export JENKINS_SERVER_URL=http://localhost:8080
 export JENKINS_USERNAME=amanshaw4511
