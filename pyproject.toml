@@ -4,10 +4,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "jenkinsctl"
-version = "0.0.2"
+version = "0.0.3"
 dependencies = ["api4jenkins", "dynaconf", "pyyaml", "argcomplete"]
 authors = [{ name = "Aman Shaw", email = "amanshaw4511@protonmail.com" }]
-description = "Build jenkins job in simple command and config"
+description = "Build Jenkins jobs effortlessly using a single command. 🚀"
 readme = "README.md"
 requires-python = ">=3.8"
 classifiers = [
@@ -15,9 +15,11 @@ classifiers = [
   "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",
   "Operating System :: OS Independent",
 ]
+keywords = ["jenkins", "jenkin"]
 
 [project.urls]
 Homepage = "https://github.com/amanshaw4511/jenkinsctl"
+Repository = "https://github.com/amanshaw4511/jenkinsctl"
 Issues = "https://github.com/amanshaw4511/jenkinsctl/issues"
 
 [project.scripts]
