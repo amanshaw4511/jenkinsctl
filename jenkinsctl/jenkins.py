@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 # PYTHON_ARGCOMPLETE_OK
 
-import argparse, argcomplete
-from jbuild import handle_build_command
+import argparse
+import argcomplete
+from .jbuild import handle_build_command
 from api4jenkins import Jenkins
-from config import settings
-from jget_config import handle_get_config
+from .config import settings
+from .jget_config import handle_get_config
 
 
 server_url = settings.server_url
@@ -45,7 +46,6 @@ def add_get_config_subparser(subparsers):
     subparser.set_defaults(func=handle_get_config, client=get_client)
     subparser.add_argument("job_name")
     subparser.add_argument("build_no", type=int)
-
 
 
 if __name__ == '__main__':

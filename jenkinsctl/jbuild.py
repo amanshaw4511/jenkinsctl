@@ -17,7 +17,6 @@ def handle_build_command(args):
     create_build(args.client, conf, args.suppress_logs)
 
 
-
 def use_vprint(verbose_flag):
     def vprint(*args, **kwargs):
         if verbose_flag:
@@ -53,7 +52,6 @@ def get_build(queued_item):
     return build
 
 
-
 def get_build_no(queued_item):
     return queued_item.api_json()["executable"]["number"]
 
@@ -70,7 +68,7 @@ def approve_pending_input(build):
     while not build.get_pending_input() and build.building:
         time.sleep(1)
 
-    if build.building :
+    if build.building:
         build.get_pending_input().submit()
 
 
@@ -91,7 +89,8 @@ def create_build(client, conf, suppress_logs: bool, vprint=print):
     build_number = get_build_no(queued_item)
     print(f"STARTED... build number : {build_number}")
 
-    approve_pending_input_thread = Thread(target=approve_pending_input, args=(build,))
+    approve_pending_input_thread = Thread(
+        target=approve_pending_input, args=(build,))
     approve_pending_input_thread.start()
 
     if not suppress_logs:
@@ -101,8 +100,6 @@ def create_build(client, conf, suppress_logs: bool, vprint=print):
 
     approve_pending_input_thread.join()
 
-
     print(f"FINISHED... build number : {build_number}")
 
     return build_number
-
