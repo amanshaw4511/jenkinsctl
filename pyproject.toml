@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "jenkinsctl"
-version = "0.0.5"
+version = "{{VERSION_PLACEHOLDER}}"
 dependencies = ["api4jenkins", "dynaconf", "pyyaml", "argcomplete"]
 authors = [{ name = "Aman Shaw", email = "amanshaw4511@protonmail.com" }]
 description = "Build Jenkins jobs effortlessly using a single command. 🚀"
