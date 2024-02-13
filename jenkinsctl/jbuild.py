@@ -9,18 +9,18 @@ from threading import Thread
 
 def handle_build_command(args):
     vprint = use_vprint(args.verbose)
-    vprint(args)
+    vprint(f"Passed args : {vars(args)}")
 
-    conf = get_conf(args)
-    print("config: ", conf)
+    conf = get_conf(args, vprint)
+    vprint("Final config: ", conf)
 
-    create_build(args.client, conf, args.suppress_logs)
+    create_build(args.client, conf, args.suppress_logs, vprint)
 
 
 def use_vprint(verbose_flag):
     def vprint(*args, **kwargs):
         if verbose_flag:
-            print(args, kwargs)
+            print(*args, **kwargs)
 
     return vprint
 
@@ -40,8 +40,17 @@ def get_config_from_yaml(file):
     return config_data
 
 
-def get_conf(args):
-    return get_config_from_yaml(args.file)
+def get_conf(args, vprint):
+    config = get_config_from_yaml(args.file)
+    vprint(f"Config from file : {config}")
+    override_params(args, config)
+    return config
+
+
+def override_params(args, file_config):
+    for param in args.param:
+        name, value = param.split('=')
+        file_config['params'][name] = value
 
 
 def get_build(queued_item):
@@ -75,19 +84,21 @@ def approve_pending_input(build):
 def create_build(client, conf, suppress_logs: bool, vprint=print):
 
     client = client()
-    vprint(client.version)
+    vprint(f"client version: {client.version}")
 
     job = client.get_job(conf["job"])
-    vprint(job)
+    vprint(f"job : {job}")
 
     queued_item = job.build(**conf["params"])
-    vprint(queued_item)
+    vprint(f"queued : {queued_item}")
 
     build = get_build(queued_item)
-    vprint(build)
+    vprint(f"build : {build}")
 
     build_number = get_build_no(queued_item)
-    print(f"STARTED... build number : {build_number}")
+
+    if not suppress_logs:
+        print(f"STARTED... build number : {build_number}")
 
     approve_pending_input_thread = Thread(
         target=approve_pending_input, args=(build,))
@@ -100,6 +111,9 @@ def create_build(client, conf, suppress_logs: bool, vprint=print):
 
     approve_pending_input_thread.join()
 
-    print(f"FINISHED... build number : {build_number}")
+    if not suppress_logs:
+        print(f"FINISHED... build number : {build_number}")
+    else:
+        print(build_number)
 
     return build_number
