@@ -37,7 +37,7 @@ def add_build_subparser(subparsers):
         "-f", "--file", type=argparse.FileType("r"), help="Yaml configuration file"
     )
     subparser.add_argument("-v", "--verbose", action="store_true")
-    subparser.add_argument("-s", "--suppress-logs")
+    subparser.add_argument("-s", "--suppress-logs", action="store_true")
     subparser.add_argument("--param", action="append", default=[])
 
 
