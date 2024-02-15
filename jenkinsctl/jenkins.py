@@ -45,7 +45,8 @@ def add_get_config_subparser(subparsers):
     subparser = subparsers.add_parser("config", help="get config of a build")
     subparser.set_defaults(func=handle_get_config, client=get_client)
     subparser.add_argument("job_name")
-    subparser.add_argument("build_no", type=int)
+    subparser.add_argument("build_no", type=int, nargs="?")
+    subparser.add_argument("-v", "--verbose", action="store_true")
 
 
 if __name__ == '__main__':
