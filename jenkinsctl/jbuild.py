@@ -6,6 +6,8 @@ import sys
 import yaml
 from threading import Thread
 
+from .commons import use_vprint
+
 
 def handle_build_command(args):
     vprint = use_vprint(args.verbose)
@@ -15,14 +17,6 @@ def handle_build_command(args):
     vprint("Final config: ", conf)
 
     create_build(args.client, conf, args.suppress_logs, vprint)
-
-
-def use_vprint(verbose_flag):
-    def vprint(*args, **kwargs):
-        if verbose_flag:
-            print(*args, **kwargs)
-
-    return vprint
 
 
 def get_config_from_yaml(file):
