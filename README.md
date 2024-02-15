@@ -75,7 +75,7 @@ This command executes the job based on the specified YAML configuration.
 
 ### Overriding Specific Parameter from Configuration
 ```sh
-jenkinsctl build -f my_job.yaml --param param2=11 --param3=false
+jenkinsctl build -f my_job.yaml --param param2=11 --param param3=false
 ```
 This command will override the value of `param2` and `param3` from original configuration file `my_job.yaml`, passing an effective configuration as follows to run jenkin job :
 ```yaml
