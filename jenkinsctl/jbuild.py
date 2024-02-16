@@ -105,9 +105,11 @@ def create_build(client, conf, suppress_logs: bool, vprint=print):
 
     approve_pending_input_thread.join()
 
+    if build.result == "FAILURE":
+        print(f"FAILED... build number : {build_number}")
+        sys.exit(1)
+
     if not suppress_logs:
         print(f"FINISHED... build number : {build_number}")
     else:
         print(build_number)
-
-    return build_number
