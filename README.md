@@ -86,9 +86,6 @@ params:
     param2: 11
     param3: false
 ```
-.. |PyPI-Downloads| image:: https://img.shields.io/pypi/dm/shtab.svg?label=pypi%20downloads&logo=PyPI&logoColor=white
-   :target: https://pepy.tech/project/shtab
-   :alt: Downloads
 
 ### Generating Config from Existing Builds
 Capture and reproduce configurations from previous Jenkins builds.
