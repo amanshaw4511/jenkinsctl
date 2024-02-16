@@ -1,4 +1,4 @@
-# jenkinsctl
+# jenkinsctl [![PyPI version](https://badge.fury.io/py/jenkinsctl.svg)](https://badge.fury.io/py/jenkinsctl) [![Downloads](https://static.pepy.tech/badge/jenkinsctl/week)](https://pepy.tech/project/jenkinsctl)
 Build Jenkins jobs effortlessly using a single command. 🚀
 
 ## Installation 📦
@@ -86,6 +86,9 @@ params:
     param2: 11
     param3: false
 ```
+.. |PyPI-Downloads| image:: https://img.shields.io/pypi/dm/shtab.svg?label=pypi%20downloads&logo=PyPI&logoColor=white
+   :target: https://pepy.tech/project/shtab
+   :alt: Downloads
 
 ### Generating Config from Existing Builds
 Capture and reproduce configurations from previous Jenkins builds.
