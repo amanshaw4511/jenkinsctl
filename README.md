@@ -17,6 +17,7 @@ export JENKINS_API_KEY=21df49caf41726094323b803a6de363eae
 ```
 Adjust the values to match your Jenkins server's URL, your username, and the corresponding API key. This configuration is essential for jenkinsctl to interact with Jenkins and execute tasks efficiently.
 
+How to Get the API Token: https://www.baeldung.com/ops/jenkins-api-token
 ## Usage 🤖
 ```sh
 $ jenkinsctl --help
