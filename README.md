@@ -1,4 +1,5 @@
-# jenkinsctl [![PyPI version](https://badge.fury.io/py/jenkinsctl.svg)](https://badge.fury.io/py/jenkinsctl) [![Downloads](https://static.pepy.tech/badge/jenkinsctl/week)](https://pepy.tech/project/jenkinsctl)
+![jenkinsctl](https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Jenkins_logo.svg/226px-Jenkins_logo.svg.png?20120629215426)
+# jenkinsctl [![PyPI version](https://badge.fury.io/py/jenkinsctl.svg)](https://badge.fury.io/py/jenkinsctl) [![Downloads](https://static.pepy.tech/badge/jenkinsctl/week)](https://pepy.tech/project/jenkinsctl) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 Build Jenkins jobs effortlessly using a single command. 🚀
 
 ## Installation 📦
