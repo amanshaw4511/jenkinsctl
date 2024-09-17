@@ -5,9 +5,76 @@ import time
 import sys
 import yaml
 from threading import Thread
+from itertools import islice
+from api4jenkins import Jenkins
+from rich.console import Console
+from rich.table import Table
+from datetime import datetime
+from dateutil import tz
 
 from .commons import use_vprint
 
+def format_timestamp(epoch_timestamp):
+    # Convert epoch timestamp to a naive datetime object
+    naive_dt = datetime.fromtimestamp(epoch_timestamp/ 1000)
+    
+    # Get the local timezone
+    local_tz = tz.tzlocal()
+    
+    # Convert naive datetime to local timezone
+    local_dt = naive_dt.astimezone(local_tz)
+    
+    # Format the datetime object to a string
+    return local_dt.strftime('%Y-%m-%d %H:%M')
+
+
+def handle_list_command(args):
+    client: Jenkins = args.client()
+    job = args.job_name
+    job = client.get_job(job)
+    
+
+    console = Console()
+    table = Table(show_header=True, header_style="bold cyan", box=None)
+
+    table.add_column("NUMBER", width=6)
+    table.add_column("IN PROGRESS", width=15)
+    table.add_column("RESULT", width=10)
+    table.add_column("BUILDING", width=8)
+    table.add_column("BRANCH", width=15)
+    table.add_column("REVISION", width=8)
+    table.add_column("STARTED BY", width=15)
+    table.add_column("BUILD TIME", width=20)
+
+    for build in islice(job.iter_all_builds(), 5):
+        api_json = build.api_json()
+        actions = api_json["actions"]
+
+        cause = None
+        branch = None
+        revision = None
+        for action in actions:
+            if action.get("causes") is not None and len(action["causes"]) > 0:
+                cause = action["causes"][0]["userId"]
+
+            if action.get("lastBuiltRevision"):
+                branch_prefix = "refs/remotes/origin/"
+                branch = action["lastBuiltRevision"]["branch"][0]["name"]
+                if branch.startswith(branch_prefix):
+                    branch = branch[len(branch_prefix):]
+                revision = action["lastBuiltRevision"]["SHA1"][:5]
+            
+        table.add_row(str(build.number),
+                       str(build.in_progress),
+                       str(build.result),
+                       str(build.building),
+                       branch,
+                       revision,
+                       cause,
+                       str(format_timestamp(build.timestamp)))
+
+    console.print(table)
+    
 
 def handle_build_command(args):
     vprint = use_vprint(args.verbose)
@@ -48,10 +115,23 @@ def override_params(args, file_config):
 
 
 def get_build(queued_item):
-    build = queued_item.get_build()
+    i = 0
+    build = None
+    try:
+        i += 1;
+        print(i)
+        build = queued_item.get_build()
+    except Exception:
+        pass
+
     while build == None:
         time.sleep(2)
-        build = queued_item.get_build()
+        try:
+            i += 1;
+            print(i)
+            build = queued_item.get_build()
+        except Exception:
+            pass
     return build
 
 
@@ -80,36 +160,5 @@ def create_build(client, conf, suppress_logs: bool, vprint=print):
     client = client()
     vprint(f"client version: {client.version}")
 
-    job = client.get_job(conf["job"])
-    vprint(f"job : {job}")
-
-    queued_item = job.build(**conf["params"])
+    queued_item = client.build_job(conf["job"], **conf["params"])
     vprint(f"queued : {queued_item}")
-
-    build = get_build(queued_item)
-    vprint(f"build : {build}")
-
-    build_number = get_build_no(queued_item)
-
-    if not suppress_logs:
-        print(f"STARTED... build number : {build_number}")
-
-    approve_pending_input_thread = Thread(
-        target=approve_pending_input, args=(build,))
-    approve_pending_input_thread.start()
-
-    if not suppress_logs:
-        log_thread = Thread(target=print_build_log, args=(build,))
-        log_thread.start()
-        log_thread.join()
-
-    approve_pending_input_thread.join()
-
-    if build.result == "FAILURE":
-        print(f"FAILED... build number : {build_number}")
-        sys.exit(1)
-
-    if not suppress_logs:
-        print(f"FINISHED... build number : {build_number}")
-    else:
-        print(build_number)

@@ -1,32 +1,24 @@
-[build-system]
-requires = ["setuptools"]
-build-backend = "setuptools.build_meta"
-
-[project]
+[tool.poetry]
 name = "jenkinsctl"
-version = "{{VERSION_PLACEHOLDER}}"
-dependencies = ["api4jenkins", "dynaconf", "pyyaml", "argcomplete"]
-authors = [{ name = "Aman Shaw", email = "amanshaw4511@protonmail.com" }]
-description = "Build Jenkins jobs effortlessly using a single command. 🚀"
+version = "0.2.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
 readme = "README.md"
-requires-python = ">=3.8"
-classifiers = [
-  "Programming Language :: Python :: 3",
-  "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",
-  "Operating System :: OS Independent",
-]
-keywords = ["jenkins", "jenkin"]
 
-[project.urls]
-Homepage = "https://github.com/amanshaw4511/jenkinsctl"
-Repository = "https://github.com/amanshaw4511/jenkinsctl"
-Issues = "https://github.com/amanshaw4511/jenkinsctl/issues"
+[tool.poetry.dependencies]
+python = "^3.8"
+api4jenkins = "^2.0.3"
+pyyaml = "^6.0.2"
+dynaconf = "^3.2.6"
+argcomplete = "^3.5.0"
+rich = "^13.8.1"
+python-dateutil = "^2.9.0.post0"
 
-[project.scripts]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.poetry.scripts]
 jenkinsctl = "jenkinsctl.jenkins:get_args"
-
-[tool.setuptools.packages.find]
-where = ["."] # list of folders that contain the packages (["."] by default)
-#include = [] # package names should match these glob patterns (["*"] by default)
-exclude = [] # exclude packages matching these glob patterns (empty by default)
-#namespaces = false # to disable scanning PEP 420 namespaces (true by default)
