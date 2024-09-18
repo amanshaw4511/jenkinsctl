@@ -1,9 +1,9 @@
+import json
+
 import yaml
+from rich.console import Console
 
 from .commons import use_vprint
-from rich.syntax import Syntax
-from rich.console import Console
-import json
 
 
 def handle_rebuild_command(args):
@@ -13,7 +13,7 @@ def handle_rebuild_command(args):
     build = get_build(client, vprint, job_name, args.build_no)
     params = get_params(build)
     client.build_job(job_name, **params)
- 
+
 
 def handle_json_command(args):
     vprint = use_vprint(args.verbose)
@@ -22,10 +22,9 @@ def handle_json_command(args):
     build = get_build(client, vprint, job_name, args.build_no)
 
     out = build.api_json()
-    out["actions"] = [ action for action in out["actions"]]
+    out["actions"] = [action for action in out["actions"]]
     out_str = json.dumps(out)
     Console().print_json(out_str)
-    
 
 
 def handle_logs_command(args):
@@ -36,6 +35,7 @@ def handle_logs_command(args):
 
     for line in build.progressive_output():
         print(line)
+
 
 def handle_config_comand(args):
     vprint = use_vprint(args.verbose)

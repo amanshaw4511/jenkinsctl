@@ -1,29 +1,29 @@
 #!/usr/bin/env python3
 # PYTHON_ARGCOMPLETE_OK
 
-import time
 import sys
-import yaml
-from threading import Thread
+from datetime import datetime
 from itertools import islice
+
+import yaml
 from api4jenkins import Jenkins
+from dateutil import tz
 from rich.console import Console
 from rich.table import Table
-from datetime import datetime
-from dateutil import tz
 
 from .commons import use_vprint
 
+
 def format_timestamp(epoch_timestamp):
     # Convert epoch timestamp to a naive datetime object
-    naive_dt = datetime.fromtimestamp(epoch_timestamp/ 1000)
-    
+    naive_dt = datetime.fromtimestamp(epoch_timestamp / 1000)
+
     # Get the local timezone
     local_tz = tz.tzlocal()
-    
+
     # Convert naive datetime to local timezone
     local_dt = naive_dt.astimezone(local_tz)
-    
+
     # Format the datetime object to a string
     return local_dt.strftime('%Y-%m-%d %H:%M')
 
@@ -32,7 +32,6 @@ def handle_list_command(args):
     client: Jenkins = args.client()
     job = args.job_name
     job = client.get_job(job)
-    
 
     console = Console()
     table = Table(show_header=True, header_style="bold cyan", box=None)
@@ -63,18 +62,18 @@ def handle_list_command(args):
                 if branch.startswith(branch_prefix):
                     branch = branch[len(branch_prefix):]
                 revision = action["lastBuiltRevision"]["SHA1"][:5]
-            
+
         table.add_row(str(build.number),
-                       str(build.in_progress),
-                       str(build.result),
-                       str(build.building),
-                       branch,
-                       revision,
-                       cause,
-                       str(format_timestamp(build.timestamp)))
+                      str(build.in_progress),
+                      str(build.result),
+                      str(build.building),
+                      branch,
+                      revision,
+                      cause,
+                      str(format_timestamp(build.timestamp)))
 
     console.print(table)
-    
+
 
 def handle_build_command(args):
     vprint = use_vprint(args.verbose)
@@ -83,7 +82,7 @@ def handle_build_command(args):
     conf = get_conf(args, vprint)
     vprint("Final config: ", conf)
 
-    create_build(args.client, conf, args.suppress_logs, vprint)
+    create_build(args.client, conf, vprint)
 
 
 def get_config_from_yaml(file):
@@ -114,49 +113,7 @@ def override_params(args, file_config):
         file_config['params'][name] = value
 
 
-def get_build(queued_item):
-    i = 0
-    build = None
-    try:
-        i += 1;
-        print(i)
-        build = queued_item.get_build()
-    except Exception:
-        pass
-
-    while build == None:
-        time.sleep(2)
-        try:
-            i += 1;
-            print(i)
-            build = queued_item.get_build()
-        except Exception:
-            pass
-    return build
-
-
-def get_build_no(queued_item):
-    return queued_item.api_json()["executable"]["number"]
-
-
-def print_build_log(build):
-    for line in build.progressive_output():
-        print(line)
-
-
-def approve_pending_input(build):
-    if not hasattr(build, 'get_pending_input'):
-        return
-
-    while not build.get_pending_input() and build.building:
-        time.sleep(1)
-
-    if build.building:
-        build.get_pending_input().submit()
-
-
-def create_build(client, conf, suppress_logs: bool, vprint=print):
-
+def create_build(client, conf, vprint=print):
     client = client()
     vprint(f"client version: {client.version}")
 
