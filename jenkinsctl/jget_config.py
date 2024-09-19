@@ -1,9 +1,12 @@
 import json
+import logging
 
 import yaml
 from rich.console import Console
 
 from .commons import use_vprint
+
+logger = logging.getLogger(__name__)
 
 
 def handle_rebuild_command(args):
@@ -58,7 +61,7 @@ def get_build(client, vprint, job_name, build_no):
     final_build_no = get_last_build_no(job) if build_no is None else build_no
     vprint(f"final build no {final_build_no}")
 
-    build = job.get(final_build_no)
+    build = job._get(final_build_no)
 
     return build
 

@@ -45,7 +45,7 @@ def handle_list_command(args):
     table.add_column("STARTED BY", width=15)
     table.add_column("BUILD TIME", width=20)
 
-    for build in islice(job.iter_all_builds(), 5):
+    for build in islice(job.iter(), 5):
         api_json = build.api_json()
         actions = api_json["actions"]
 
@@ -64,13 +64,13 @@ def handle_list_command(args):
                 revision = action["lastBuiltRevision"]["SHA1"][:5]
 
         table.add_row(str(build.number),
-                      str(build.in_progress),
-                      str(build.result),
-                      str(build.building),
+                      str(api_json.get("in_progress")),
+                      str(api_json.get("result")),
+                      str(api_json.get("building")),
                       branch,
                       revision,
                       cause,
-                      str(format_timestamp(build.timestamp)))
+                      str(format_timestamp(api_json.get("timestamp"))))
 
     console.print(table)
 
