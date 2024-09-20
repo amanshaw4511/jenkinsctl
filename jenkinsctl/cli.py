@@ -8,10 +8,10 @@ import argcomplete
 from api4jenkins import Jenkins
 
 from jenkinsctl.configs.logging_config import setup_logging
-from jenkinsctl.jenkins.client import client_list
-from .config import settings
-from .jbuild import handle_build_command, handle_list_command
-from .jget_config import handle_config_comand, handle_json_command, handle_logs_command, handle_rebuild_command
+from jenkinsctl.old.jbuild import handle_build_command, handle_list_command
+from jenkinsctl.old.jget_config import handle_config_comand, handle_json_command, handle_logs_command, \
+    handle_rebuild_command
+from jenkinsctl.configs.config import settings
 
 server_url = settings.server_url
 username = settings.username
@@ -41,7 +41,6 @@ def get_args():
     add_logs_subparser(subparsers)
     add_json_subparser(subparsers)
     add_rebuild_subparser(subparsers)
-    add_test_subparser(subparsers)
 
     parser.add_argument("-v", "--verbose", action="store_true", help="Enable verbose output")
 
@@ -60,16 +59,6 @@ def get_args():
 
     args.func(args)
 
-def handle_test_command(args):
-    job_name ="TestParam"
-    #client_get_job("Hello%20World")
-    client_list(job_name)
-    #client_rebuild(job_name, 1)
-    #client_build(job_name, {"param": "myparam"})
-
-def add_test_subparser(subparsers):
-    subparser = subparsers.add_parser("test", help="Rebuild a specific Jenkins job")
-    subparser.set_defaults(func=handle_test_command, client=get_client)
 
 def add_job_name_argument(subparser):
     subparser.add_argument("job_name", help="Name of the Jenkins job")

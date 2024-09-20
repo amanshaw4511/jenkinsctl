@@ -1,25 +1,27 @@
-from requests import Session
 import time
+
+from jenkinsctl.configs.session import Session
 
 
 def _get(session: Session, url: str):
     url = f"{url}api/json"
     return session.get(url).json()
 
-def build_job(session: Session, host: str, job_name: str, params: dict):
+def build_job(session: Session, job_name: str, params: dict):
     if len(params) == 0:
-        url = f"{host}/job/{job_name}/build"
+        url = f"/job/{job_name}/build"
         response = session.post(url)
         print(response.status_code)
         return
 
-    url = f"{host}/job/{job_name}/buildWithParameters"
+    url = f"/job/{job_name}/buildWithParameters"
     response = session.post(url, params=params)
+    print(response.headers.get("Location"))
     print(response.status_code)
 
 
-def get_job(session: Session, host: str, job_name: str):
-    url = f"{host}/job/{job_name}/"
+def get_job(session: Session, job_name: str):
+    url = f"/job/{job_name}/"
     return _get(session, url)
 
 
@@ -36,13 +38,13 @@ def _get_build(session: Session, job_json, build_no):
     return _get(session, build["url"])
 
 
-def get_build(session: Session, host: str, job_name: str, build_no: int):
-    url = f"{host}/job/{job_name}/{build_no}/"
+def get_build(session: Session, job_name: str, build_no: int):
+    url = f"/job/{job_name}/{build_no}/"
     return _get(session, url)
 
 
-def progressive_log(session: Session, host: str, job_name: str, build_no: int):
-    url = f"{host}/job/{job_name}/{build_no}/logText/progressiveText"
+def progressive_log(session: Session, job_name: str, build_no: int):
+    url = f"/job/{job_name}/{build_no}/logText/progressiveText"
     start_byte = 0
     while True:
         response = session.get(url, params={'start': start_byte})

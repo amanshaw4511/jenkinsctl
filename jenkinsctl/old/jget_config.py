@@ -4,8 +4,6 @@ import logging
 import yaml
 from rich.console import Console
 
-from .commons import use_vprint
-
 logger = logging.getLogger(__name__)
 
 

@@ -1,22 +1,31 @@
-#!/usr/bin/env python3
-
 import logging
-from typing import Optional, List
+from io import TextIOWrapper
+from typing import Optional
 
 import click
 from api4jenkins import Jenkins
 
-from jenkinsctl.jenkins.client import client_list
-from .config import settings
-from .jbuild import handle_build_command, handle_list_command
-from .jget_config import handle_config_comand, handle_json_command, handle_logs_command, handle_rebuild_command
-
+from jenkinsctl.commands.build import build_handler
+from jenkinsctl.commands.config import config_handler
+from jenkinsctl.commands.json import json_handler
+from jenkinsctl.commands.list import list_handler
+from jenkinsctl.commands.logs import logs_handler
+from jenkinsctl.commands.rebuild import rebuild_handler
+from jenkinsctl.configs.logging_config import setup_logging
+from jenkinsctl.configs.session import Session
+from jenkinsctl.configs.config import settings
 
 server_url: str = settings.server_url
 username: str = settings.username
 api_key: str = settings.api_key
 
 logger = logging.getLogger(__name__)
+
+
+def _get_session():
+    session = Session(server_url)
+    session.auth = (username, api_key)
+    return session
 
 
 def get_client() -> Jenkins:
@@ -30,60 +39,65 @@ def get_client() -> Jenkins:
 def cli(ctx: click.Context, verbose: bool) -> None:
     """A command-line tool to interact with Jenkins jobs"""
     log_level: int = logging.DEBUG if verbose else logging.INFO
+    logger = setup_logging(log_level)
+
+    logger.info(f"Starting Jenkins CLI")
 
 
-@cli.command()
+
+@cli.command("list")
 @click.argument("job_name")
-def list(job_name: str) -> None:
+def list_command(job_name: str) -> None:
     """List all builds of a Jenkins job"""
-    handle_list_command(get_client(), job_name)
+    with _get_session() as session:
+        list_handler(session, job_name)
 
 
-@cli.command()
+@cli.command("logs")
 @click.argument("job_name")
 @click.argument("build_no", required=False, type=int)
-def logs(job_name: str, build_no: Optional[int]) -> None:
+def logs_command(job_name: str, build_no: Optional[int]) -> None:
     """Print logs of a Jenkins build"""
-    handle_logs_command(get_client(), job_name, build_no)
+    with _get_session() as session:
+        logs_handler(session, job_name, build_no)
 
 
-@cli.command()
+@cli.command("json")
 @click.argument("job_name")
 @click.argument("build_no", required=False, type=int)
-def json(job_name: str, build_no: Optional[int]) -> None:
+def json_command(job_name: str, build_no: Optional[int]) -> None:
     """Fetch and print the JSON API response of a Jenkins build"""
-    handle_json_command(get_client(), job_name, build_no)
+    with _get_session() as session:
+        json_handler(session, job_name, build_no)
 
 
-@cli.command()
+@cli.command("config")
 @click.argument("job_name")
 @click.argument("build_no", required=False, type=int)
-def config(job_name: str, build_no: Optional[int]) -> None:
+def config_command(job_name: str, build_no: Optional[int]) -> None:
     """Get the configuration of a specific build in YAML format"""
-    handle_config_comand(get_client(), job_name, build_no)
+    with _get_session() as session:
+        config_handler(session, job_name, build_no)
 
 
-@cli.command()
+@cli.command("rebuild")
 @click.argument("job_name")
 @click.argument("build_no", required=False, type=int)
-def rebuild(job_name: str, build_no: Optional[int]) -> None:
+def rebuild_command(job_name: str, build_no: Optional[int]) -> None:
     """Rebuild a specific Jenkins job"""
-    handle_rebuild_command(get_client(), job_name, build_no)
+    with _get_session() as session:
+        rebuild_handler(session, job_name, build_no)
 
 
-@cli.command()
-@click.option("-p", "--param", multiple=True, help="Override parameters in the YAML configuration (e.g., --param key=value)")
+@cli.command("build")
+@click.option("-p", "--param", multiple=True,
+              help="Override parameters in the YAML configuration (e.g., --param key=value)")
 @click.option("-f", "--file", type=click.File('r'), required=True, help="YAML configuration file for the Jenkins job")
-def build( file: click.File, param: Optional[List[str]]) -> None:
+def build_command(file: TextIOWrapper, param: tuple[str]) -> None:
     """Trigger a new Jenkins build"""
-    handle_build_command(get_client(), file, param)
-
-
-@cli.command()
-def test() -> None:
-    """Test command for Jenkins job"""
-    job_name = "TestParam"
-    client_list(job_name)
+    params = [p for p in param]
+    with _get_session() as session:
+        build_handler(session, file, params)
 
 
 # Entry point

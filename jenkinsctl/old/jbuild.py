@@ -6,12 +6,9 @@ from datetime import datetime
 from itertools import islice
 
 import yaml
-from api4jenkins import Jenkins
 from dateutil import tz
 from rich.console import Console
 from rich.table import Table
-
-from .commons import use_vprint
 
 
 def format_timestamp(epoch_timestamp):
