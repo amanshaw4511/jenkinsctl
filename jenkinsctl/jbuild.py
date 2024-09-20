@@ -28,10 +28,8 @@ def format_timestamp(epoch_timestamp):
     return local_dt.strftime('%Y-%m-%d %H:%M')
 
 
-def handle_list_command(args):
-    client: Jenkins = args.client()
-    job = args.job_name
-    job = client.get_job(job)
+def handle_list_command(client, job_name):
+    job = client.get_job(job_name)
 
     console = Console()
     table = Table(show_header=True, header_style="bold cyan", box=None)
@@ -75,14 +73,10 @@ def handle_list_command(args):
     console.print(table)
 
 
-def handle_build_command(args):
-    vprint = use_vprint(args.verbose)
-    vprint(f"Passed args : {vars(args)}")
+def handle_build_command(client, file, param):
+    conf = get_conf(file, param)
 
-    conf = get_conf(args, vprint)
-    vprint("Final config: ", conf)
-
-    create_build(args.client, conf, vprint)
+    create_build(client, conf)
 
 
 def get_config_from_yaml(file):
@@ -100,21 +94,19 @@ def get_config_from_yaml(file):
     return config_data
 
 
-def get_conf(args, vprint):
-    config = get_config_from_yaml(args.file)
-    vprint(f"Config from file : {config}")
-    override_params(args, config)
+def get_conf(file, params):
+    config = get_config_from_yaml(file)
+    override_params(params, config)
     return config
 
 
-def override_params(args, file_config):
-    for param in args.param:
+def override_params(params, file_config):
+    for param in params:
         name, value = param.split('=')
         file_config['params'][name] = value
 
 
 def create_build(client, conf, vprint=print):
-    client = client()
     vprint(f"client version: {client.version}")
 
     queued_item = client.build_job(conf["job"], **conf["params"])
