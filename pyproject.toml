@@ -7,15 +7,12 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.8"
-api4jenkins = "^2.0.3"
 pyyaml = "^6.0.2"
 dynaconf = "^3.2.6"
-argcomplete = "^3.5.0"
 rich = "^13.8.1"
 python-dateutil = "^2.9.0.post0"
 requests = "^2.32.3"
 click = "^8.1.7"
-click-completion = "^0.5.2"
 
 
 [build-system]
@@ -24,4 +21,4 @@ build-backend = "poetry.core.masonry.api"
 
 
 [tool.poetry.scripts]
-jenkinsctl = "jenkinsctl.cli2:cli"
+jenkinsctl = "jenkinsctl.cli:cli"

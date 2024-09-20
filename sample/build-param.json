@@ -1,0 +1,66 @@
+{
+  "_class": "hudson.model.FreeStyleBuild",
+  "actions": [
+    {
+      "_class": "hudson.model.ParametersAction",
+      "parameters": [
+        {
+          "_class": "hudson.model.StringParameterValue",
+          "name": "param",
+          "value": "pvalueeee"
+        }
+      ]
+    },
+    {
+      "_class": "hudson.model.CauseAction",
+      "causes": [
+        {
+          "_class": "hudson.model.Cause$UserIdCause",
+          "shortDescription": "Started by user Aman Shaw",
+          "userId": "aman",
+          "userName": "Aman Shaw"
+        }
+      ]
+    },
+    {
+      "_class": "jenkins.metrics.impl.TimeInQueueAction",
+      "blockedDurationMillis": 0,
+      "blockedTimeMillis": 0,
+      "buildableDurationMillis": 7,
+      "buildableTimeMillis": 7,
+      "buildingDurationMillis": 13,
+      "executingTimeMillis": 13,
+      "executorUtilization": 1.0,
+      "subTaskCount": 0,
+      "waitingDurationMillis": 6301,
+      "waitingTimeMillis": 6301
+    },
+    {},
+    {
+      "_class": "org.jenkinsci.plugins.displayurlapi.actions.RunDisplayAction"
+    }
+  ],
+  "artifacts": [],
+  "building": false,
+  "description": null,
+  "displayName": "#2",
+  "duration": 13,
+  "estimatedDuration": 26,
+  "executor": null,
+  "fullDisplayName": "TestParam #2",
+  "id": "2",
+  "inProgress": false,
+  "keepLog": false,
+  "number": 2,
+  "queueId": 6,
+  "result": "SUCCESS",
+  "timestamp": 1726771834867,
+  "url": "http://localhost:8083/job/TestParam/2/",
+  "builtOn": "",
+  "changeSet": {
+    "_class": "hudson.scm.EmptyChangeLogSet",
+    "items": [],
+    "kind": null
+  },
+  "culprits": []
+}

@@ -1,0 +1,93 @@
+{
+  "_class": "hudson.model.FreeStyleProject",
+  "actions": [
+    {},
+    {},
+    {
+      "_class": "org.jenkinsci.plugins.displayurlapi.actions.JobDisplayAction"
+    },
+    {
+      "_class": "com.cloudbees.plugins.credentials.ViewCredentialsAction"
+    }
+  ],
+  "description": "",
+  "displayName": "Hello World",
+  "displayNameOrNull": null,
+  "fullDisplayName": "Hello World",
+  "fullName": "Hello World",
+  "name": "Hello World",
+  "url": "http://localhost:8083/job/Hello%20World/",
+  "buildable": true,
+  "builds": [
+    {
+      "_class": "hudson.model.FreeStyleBuild",
+      "number": 4,
+      "url": "http://localhost:8083/job/Hello%20World/4/"
+    },
+    {
+      "_class": "hudson.model.FreeStyleBuild",
+      "number": 3,
+      "url": "http://localhost:8083/job/Hello%20World/3/"
+    },
+    {
+      "_class": "hudson.model.FreeStyleBuild",
+      "number": 2,
+      "url": "http://localhost:8083/job/Hello%20World/2/"
+    },
+    {
+      "_class": "hudson.model.FreeStyleBuild",
+      "number": 1,
+      "url": "http://localhost:8083/job/Hello%20World/1/"
+    }
+  ],
+  "color": "blue",
+  "firstBuild": {
+    "_class": "hudson.model.FreeStyleBuild",
+    "number": 1,
+    "url": "http://localhost:8083/job/Hello%20World/1/"
+  },
+  "healthReport": [
+    {
+      "description": "Build stability: No recent builds failed.",
+      "iconClassName": "icon-health-80plus",
+      "iconUrl": "health-80plus.png",
+      "score": 100
+    }
+  ],
+  "inQueue": false,
+  "keepDependencies": false,
+  "lastBuild": {
+    "_class": "hudson.model.FreeStyleBuild",
+    "number": 4,
+    "url": "http://localhost:8083/job/Hello%20World/4/"
+  },
+  "lastCompletedBuild": {
+    "_class": "hudson.model.FreeStyleBuild",
+    "number": 4,
+    "url": "http://localhost:8083/job/Hello%20World/4/"
+  },
+  "lastFailedBuild": null,
+  "lastStableBuild": {
+    "_class": "hudson.model.FreeStyleBuild",
+    "number": 4,
+    "url": "http://localhost:8083/job/Hello%20World/4/"
+  },
+  "lastSuccessfulBuild": {
+    "_class": "hudson.model.FreeStyleBuild",
+    "number": 4,
+    "url": "http://localhost:8083/job/Hello%20World/4/"
+  },
+  "lastUnstableBuild": null,
+  "lastUnsuccessfulBuild": null,
+  "nextBuildNumber": 5,
+  "property": [],
+  "queueItem": null,
+  "concurrentBuild": false,
+  "disabled": false,
+  "downstreamProjects": [],
+  "labelExpression": null,
+  "scm": {
+    "_class": "hudson.scm.NullSCM"
+  },
+  "upstreamProjects": []
+}

@@ -17,6 +17,5 @@ class Session(requests.Session):
             **kwargs
     ):
         joined_url = urljoin(self.base_url, url)
-        # logger.debug(joined_url)
         return super().request(method, joined_url, **kwargs)
 
