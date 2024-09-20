@@ -1,9 +1,20 @@
 [tool.poetry]
 name = "jenkinsctl"
 version = "0.2.0"
-description = ""
-authors = ["Your Name <you@example.com>"]
+description = "A command-line tool to interact with Jenkins jobs 🚀"
+authors = ["Aman Shaw <amanshaw4511@protonmail.com>"]
 readme = "README.md"
+license = "GPL-3.0-or-later"
+maintainers = [
+    "Aman Shaw <amanshaw4511@protonmail.com>"
+]
+homepage = "https://github.com/amanshaw4511/jenkinsctl"
+repository = "https://github.com/amanshaw4511/jenkinsctl"
+keywords = ["jenkins", "jenkin"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent",
+]
 
 [tool.poetry.dependencies]
 python = "^3.8"

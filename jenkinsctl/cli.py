@@ -3,7 +3,6 @@ from io import TextIOWrapper
 from typing import Optional
 
 import click
-from api4jenkins import Jenkins
 
 from jenkinsctl.commands.build import build_handler
 from jenkinsctl.commands.config import config_handler
@@ -26,15 +25,10 @@ def _get_session():
     return session
 
 
-def get_client() -> Jenkins:
-    """Initialize and return a Jenkins client."""
-    return Jenkins(server_url, auth=(username, api_key))
-
-
 @click.group()
 @click.option('-v', '--verbose', is_flag=True, help="Enable verbose output")
 @click.pass_context
-def cli(ctx: click.Context, verbose: bool) -> None:
+def cli(verbose: bool) -> None:
     """A command-line tool to interact with Jenkins jobs"""
     log_level: int = logging.DEBUG if verbose else logging.INFO
     logger = setup_logging(log_level)
