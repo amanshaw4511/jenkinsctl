@@ -3,6 +3,7 @@ from io import TextIOWrapper
 from typing import Optional
 
 import click
+from pygments.lexer import default
 
 from jenkinsctl.commands.build import build_handler
 from jenkinsctl.commands.config import config_handler
@@ -28,20 +29,20 @@ def _get_session():
 @click.group()
 @click.option('-v', '--verbose', is_flag=True, help="Enable verbose output")
 @click.pass_context
-def cli(verbose: bool) -> None:
+def cli(ctx:click.Context, verbose: bool) -> None:
     """A command-line tool to interact with Jenkins jobs"""
     log_level: int = logging.DEBUG if verbose else logging.INFO
-    logger = setup_logging(log_level)
+    ctx.logger = setup_logging(log_level)
 
-    logger.info(f"Starting Jenkins CLI")
 
 
 @cli.command("list")
 @click.argument("job_name")
-def list_command(job_name: str) -> None:
+@click.option("-n", "--number", default=5, type=int, help="No of builds to list (default: 5)")
+def list_command(job_name: str, number: int) -> None:
     """List all builds of a Jenkins job"""
     with _get_session() as session:
-        list_handler(session, job_name)
+        list_handler(session, job_name, number)
 
 
 @cli.command("logs")

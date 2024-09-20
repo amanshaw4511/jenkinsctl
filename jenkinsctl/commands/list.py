@@ -8,7 +8,7 @@ from jenkinsctl.jenkins.console_util import format_timestamp
 from jenkinsctl.jenkins.job import get_job, get_builds_iter
 
 
-def list_handler(session: Session, job_name: str):
+def list_handler(session: Session, job_name: str, number: int):
     job = get_job(session, job_name)
 
     console = Console()
@@ -23,7 +23,7 @@ def list_handler(session: Session, job_name: str):
     table.add_column("STARTED BY", width=15)
     table.add_column("BUILD TIME", width=20)
 
-    for build in islice(get_builds_iter(session, job), 5):
+    for build in islice(get_builds_iter(session, job), number):
         number = build["number"]
         building = build["building"]
         in_progress = build["inProgress"]
