@@ -6,9 +6,11 @@ from rich.table import Table
 from jenkinsctl.configs.session import Session
 from jenkinsctl.jenkins.console_util import format_timestamp
 from jenkinsctl.jenkins.job import get_job, get_builds_iter
+from jenkinsctl.jenkins.utils import normalize_job_path
 
 
 def list_handler(session: Session, job_name: str, number: int):
+    job_name = normalize_job_path(job_name)
     job = get_job(session, job_name)
 
     console = Console()

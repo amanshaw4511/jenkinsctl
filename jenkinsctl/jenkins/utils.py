@@ -3,9 +3,15 @@ import yaml
 
 def get_build_params(build_json):
     actions = build_json["actions"]
-    params = next((action["parameters"] for action in actions if action.get("parameters") is not None), None)
+    params = next((action["parameters"] for action in actions if action.get("parameters") is not None), [])
     params = dict([(param["name"], param["value"]) for param in params])
     return params
+
+
+def normalize_job_path(path: str):
+    return (path.strip()
+            .removeprefix("/")
+            .replace("/", "/job/"))
 
 
 def print_build(build_json):

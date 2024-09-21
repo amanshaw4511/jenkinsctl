@@ -3,31 +3,20 @@ from io import TextIOWrapper
 from typing import Optional
 
 import click
+import click_completion
 
 from jenkinsctl.commands.build import build_handler
 from jenkinsctl.commands.config import config_handler
 from jenkinsctl.commands.enable_completion import handle_enable_completion
+from jenkinsctl.commands.jobs import jobs_handler
 from jenkinsctl.commands.json import json_handler
 from jenkinsctl.commands.list import list_handler
 from jenkinsctl.commands.logs import logs_handler
 from jenkinsctl.commands.rebuild import rebuild_handler
-from jenkinsctl.configs.config import settings
 from jenkinsctl.configs.logging_config import setup_logging
-from jenkinsctl.configs.session import Session
-
-import click_completion
+from jenkinsctl.jenkins.cli_helper import error_handler_and_session
 
 click_completion.init()
-
-server_url: str = settings.server_url
-username: str = settings.username
-api_key: str = settings.api_key
-
-
-def _get_session():
-    session = Session(server_url)
-    session.auth = (username, api_key)
-    return session
 
 
 @click.group()
@@ -49,7 +38,7 @@ def list_command(job_name: str, number: int) -> None:
     \b
     JOB_NAME: Name of the Jenkins job
     """
-    with _get_session() as session:
+    with error_handler_and_session() as session:
         list_handler(session, job_name, number)
 
 
@@ -64,7 +53,7 @@ def logs_command(job_name: str, build_no: Optional[int]) -> None:
     JOB_NAME: Name of the Jenkins job
     BUILD_NO: Build number (default: last build)
     """
-    with _get_session() as session:
+    with error_handler_and_session() as session:
         logs_handler(session, job_name, build_no)
 
 
@@ -79,7 +68,7 @@ def json_command(job_name: str, build_no: Optional[int]) -> None:
     JOB_NAME: Name of the Jenkins job
     BUILD_NO: Build number (default: last build)
     """
-    with _get_session() as session:
+    with error_handler_and_session() as session:
         json_handler(session, job_name, build_no)
 
 
@@ -94,7 +83,7 @@ def config_command(job_name: str, build_no: Optional[int]) -> None:
     JOB_NAME: Name of the Jenkins job
     BUILD_NO: Build number (default: last build)
     """
-    with _get_session() as session:
+    with error_handler_and_session() as session:
         config_handler(session, job_name, build_no)
 
 
@@ -109,7 +98,7 @@ def rebuild_command(job_name: str, build_no: Optional[int]) -> None:
     JOB_NAME: Name of the Jenkins job
     BUILD_NO: Build number (default: last build)
     """
-    with _get_session() as session:
+    with error_handler_and_session() as session:
         rebuild_handler(session, job_name, build_no)
 
 
@@ -122,7 +111,7 @@ def build_command(file: TextIOWrapper, param: tuple[str]) -> None:
     Trigger a new Jenkins build
     """
     params = [p for p in param]
-    with _get_session() as session:
+    with error_handler_and_session() as session:
         build_handler(session, file, params)
 
 
@@ -148,6 +137,21 @@ def enable_completion(shell: str):
         shell = click_completion.core.get_auto_shell()  # Detect the current shell
 
     handle_enable_completion(shell)
+
+
+@cli.command("jobs")
+@click.argument("folder_name", default="")
+def jobs_command(folder_name: str) -> None:
+    """
+        List all jobs in a Jenkins folder.
+
+        \b
+        FOLDER_NAME: Path of the folder to list jobs (e.g., projectA/subProjectX).
+                     If no folder is specified, it lists jobs in the root folder.
+    """
+    with error_handler_and_session() as session:
+        jobs_handler(session, folder_name)
+
 
 # Entry point
 if __name__ == '__main__':

@@ -24,6 +24,13 @@ def get_job(session: Session, job_name: str):
     url = f"/job/{job_name}/"
     return _get(session, url)
 
+def get_jobs(session: Session, folder_name: str):
+    if folder_name.strip() == "":
+        return _get(session, "")
+
+    url = f"/job/{folder_name}/"
+    return _get(session, url)
+
 
 def get_builds_iter(session: Session, job_json):
     builds = job_json["builds"]
@@ -48,7 +55,9 @@ def progressive_log(session: Session, job_name: str, build_no: int):
     start_byte = 0
     while True:
         response = session.get(url, params={'start': start_byte})
-        print(response.text, end="")
+        text = response.text
+        print(text, end="")
         start_byte = int(response.headers.get('X-Text-Size', 0))
-        if response.headers.get('X-More-Data') == 'false': break
+        if response.headers.get('X-More-Data') == 'false' or text.strip() == "":
+            break
         time.sleep(2)
