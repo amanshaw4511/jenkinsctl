@@ -3,10 +3,10 @@ from io import TextIOWrapper
 from typing import Optional
 
 import click
-from pygments.lexer import default
 
 from jenkinsctl.commands.build import build_handler
 from jenkinsctl.commands.config import config_handler
+from jenkinsctl.commands.enable_completion import handle_enable_completion
 from jenkinsctl.commands.json import json_handler
 from jenkinsctl.commands.list import list_handler
 from jenkinsctl.commands.logs import logs_handler
@@ -14,6 +14,10 @@ from jenkinsctl.commands.rebuild import rebuild_handler
 from jenkinsctl.configs.config import settings
 from jenkinsctl.configs.logging_config import setup_logging
 from jenkinsctl.configs.session import Session
+
+import click_completion
+
+click_completion.init()
 
 server_url: str = settings.server_url
 username: str = settings.username
@@ -29,11 +33,10 @@ def _get_session():
 @click.group()
 @click.option('-v', '--verbose', is_flag=True, help="Enable verbose output")
 @click.pass_context
-def cli(ctx:click.Context, verbose: bool) -> None:
+def cli(ctx: click.Context, verbose: bool) -> None:
     """A command-line tool to interact with Jenkins jobs"""
     log_level: int = logging.DEBUG if verbose else logging.INFO
     ctx.logger = setup_logging(log_level)
-
 
 
 @cli.command("list")
@@ -91,6 +94,15 @@ def build_command(file: TextIOWrapper, param: tuple[str]) -> None:
     with _get_session() as session:
         build_handler(session, file, params)
 
+
+@cli.command("enable-completion")
+@click.argument('shell', required=False)
+def enable_completion(shell: str):
+    """Enable shell autocompletion for jenkinsctl. Specify a shell (bash, zsh, fish, etc.)."""
+    if shell is None:
+        shell = click_completion.core.get_auto_shell()  # Detect the current shell
+
+    handle_enable_completion(shell)
 
 # Entry point
 if __name__ == '__main__':
