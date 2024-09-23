@@ -1,10 +1,15 @@
+import logging
+import sys
 from io import TextIOWrapper
+from typing import List
+
+import yaml
 
 from jenkinsctl.configs.session import Session
+from jenkinsctl.jenkins.console_util import json_preety
 from jenkinsctl.jenkins.job import build_job
-from typing import List
-import yaml
-import sys
+
+log = logging.getLogger(__name__)
 
 
 def get_config_from_yaml(file):
@@ -36,5 +41,6 @@ def override_params(params, file_config):
 
 def build_handler(session: Session, file: TextIOWrapper, params: List[str]):
     conf = get_conf(file, params)
-    print(conf)
-    build_job(session, conf["job"], conf["params"])
+    log.debug(f"config: {json_preety(conf)}")
+    location = build_job(session, conf["job"], conf["params"])
+    print(location)
