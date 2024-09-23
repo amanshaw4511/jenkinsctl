@@ -70,7 +70,7 @@ run() {
 		local folder_name=$( _extract_folder_name "$selected_job" )
 
 		echo ":::: Entering folder: $folder_name"
-		_run "$CURRENT_FOLDER/$folder_name"
+		run "$CURRENT_FOLDER/$folder_name"
 		exit 0
 	fi
 

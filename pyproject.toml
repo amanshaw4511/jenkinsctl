@@ -24,6 +24,7 @@ rich = "^13.8.1"
 python-dateutil = "^2.9.0.post0"
 requests = "^2.32.3"
 click = "^8.1.7"
+click-completion = "^0.5.2"
 
 
 [build-system]
