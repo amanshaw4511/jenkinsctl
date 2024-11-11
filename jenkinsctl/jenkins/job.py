@@ -1,9 +1,14 @@
 import time
 
+from urllib.parse import urlparse
+
 from jenkinsctl.configs.session import Session
 
+def _remove_base_url(url: str):
+    return urlparse(url).path
 
 def _get(session: Session, url: str):
+    url = _remove_base_url(url)
     url = f"{url}api/json"
     return session.get(url).json()
 
