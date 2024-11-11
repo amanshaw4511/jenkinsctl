@@ -1,6 +1,23 @@
 ![jenkinsctl](https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Jenkins_logo.svg/226px-Jenkins_logo.svg.png?20120629215426)
 # jenkinsctl [![PyPI version](https://badge.fury.io/py/jenkinsctl.svg?)](https://badge.fury.io/py/jenkinsctl) [![Downloads](https://static.pepy.tech/badge/jenkinsctl/week?)](https://pepy.tech/project/jenkinsctl) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 Build Jenkins jobs effortlessly using a single command. 🚀
+`jenkinsctl` is a command-line tool built to make Jenkins management fast and efficient, putting powerful job control at your fingertips. Whether you're listing builds, fetching logs, or triggering parameterized jobs, `jenkinsctl` simplifies your CI/CD workflow.
+
+## 🧩 Why jenkinsctl?
+
+Working through Jenkins' UI for routine tasks can be tedious. `jenkinsctl` lets you skip the web interface, saving time and bringing Jenkins control directly into your terminal.
+
+### Key Features
+
+- **Quick Build Listings**: View recent builds for any job.
+- **Instant Log Access**: Fetch build logs effortlessly.
+- **JSON & YAML API Data**: Retrieve job configurations and build data in JSON or YAML.
+- **Easy Rebuilds**: Re-run jobs without reopening Jenkins.
+- **Parameterized Builds**: Customize builds with dynamic parameters.
+- **Folder Job Listings**: Organize and access jobs in specific folders.
+- **Autocompletion**: Enhance the CLI experience with shell autocompletion for bash, zsh, or fish.
+
+---
 
 ## Installation 📦
 
