@@ -14,11 +14,12 @@ jobs:
 
     - name: Extract tag name
       id: tag
-      run: echo ::set-output name=TAG_NAME::$(echo $GITHUB_REF | cut -d / -f 3)
+      run: |
+        echo "TAG_NAME=$(echo $GITHUB_REF | cut -d / -f 3)" >> $GITHUB_ENV
 
     - name: Update version in pyproject.toml
-      run: >-
-        sed -i 's/version = "[^"]*"/version = "{{steps.tag.outputs.TAG_NAME}}"/' pyproject.toml
+      run: |
+        sed -i "s/version = \"[^\"]*\"/version = \"$TAG_NAME\"/" pyproject.toml
 
     - name: Build and publish to pypi
       uses: JRubics/poetry-publish@v2.0
