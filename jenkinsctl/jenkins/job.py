@@ -1,28 +1,34 @@
 import time
 
+from urllib.parse import urlparse
+
 from jenkinsctl.configs.session import Session
 
+def _remove_base_url(url: str):
+    return urlparse(url).path
 
 def _get(session: Session, url: str):
+    url = _remove_base_url(url)
     url = f"{url}api/json"
     return session.get(url).json()
 
+
 def build_job(session: Session, job_name: str, params: dict):
+    response = None
     if len(params) == 0:
         url = f"/job/{job_name}/build"
         response = session.post(url)
-        print(response.status_code)
-        return
+    else:
+        url = f"/job/{job_name}/buildWithParameters"
+        response = session.post(url, params=params)
 
-    url = f"/job/{job_name}/buildWithParameters"
-    response = session.post(url, params=params)
-    print(response.headers.get("Location"))
-    print(response.status_code)
+    return response.headers.get("Location")
 
 
 def get_job(session: Session, job_name: str):
     url = f"/job/{job_name}/"
     return _get(session, url)
+
 
 def get_jobs(session: Session, folder_name: str):
     if folder_name.strip() == "":

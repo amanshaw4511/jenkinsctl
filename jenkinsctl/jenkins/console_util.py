@@ -26,3 +26,6 @@ def format_timestamp(epoch_timestamp):
 def print_json(dict_obj):
     json_str = json.dumps(dict_obj)
     get_console().print_json(json_str)
+
+def json_preety(dict_obj):
+    return json.dumps(dict_obj, indent=2)
