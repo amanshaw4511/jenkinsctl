@@ -117,7 +117,7 @@ def build_command(file: TextIOWrapper, param: tuple[str]) -> None:
 
 @cli.command("enable-completion")
 @click.argument('shell', required=False)
-def enable_completion(shell: str):
+def enable_completion(shell: str| None):
     """
     Enable shell autocompletion for jenkinsctl.
 

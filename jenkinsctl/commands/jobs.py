@@ -12,7 +12,9 @@ def jobs_handler(session: Session, folder_name: str):
     jobs = [job for job in all_jobs if job["_class"] != "com.cloudbees.hudson.plugins.folder.Folder"]
 
     for folder in folders:
-        print(f"[{folder["name"]}]")
+        folder_name = folder["name"]
+        print(f"[{folder_name}]")
 
     for job in jobs:
-        print(f"{job["name"]}")
+        job_name = job["name"]
+        print(f"{job_name}")
