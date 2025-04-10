@@ -10,7 +10,7 @@ jobs:
     name: Build and publish Python 🐍 package 📦 to PyPI
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Extract tag name
       id: tag
@@ -30,3 +30,7 @@ jobs:
       with:
           python_version: '3.10'
           pypi_token: ${{ secrets.PYPI_API_TOKEN }}
+
+
+    - name: Github Release
+      uses: softprops/action-gh-release@v2
