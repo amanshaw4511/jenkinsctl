@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "jenkinsctl"
-version = "0.2.0"
+version = "1.0.8"
 description = "A command-line tool to interact with Jenkins jobs 🚀"
 authors = ["Aman Shaw <amanshaw4511@protonmail.com>"]
 readme = "README.md"
