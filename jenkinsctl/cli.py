@@ -150,6 +150,7 @@ def jobs_command(folder_name: str) -> None:
                      If no folder is specified, it lists jobs in the root folder.
     """
     with error_handler_and_session() as session:
+        print("hello")
         jobs_handler(session, folder_name)
 
 
