@@ -9,11 +9,6 @@ def setup_logging(log_level=logging.INFO):
     console_handler.setLevel(log_level)
     console_handler.setFormatter(logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s"))
 
-    file_handler = logging.FileHandler('jenkinsctl.log')
-    file_handler.setLevel(log_level)
-    file_handler.setFormatter(logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s"))
-
     logger.addHandler(console_handler)
-    logger.addHandler(file_handler)
 
     return logger
