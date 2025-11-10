@@ -1,36 +1,57 @@
-[tool.poetry]
+[project]
 name = "jenkinsctl"
 version = "1.0.8"
 description = "A command-line tool to interact with Jenkins jobs 🚀"
-authors = ["Aman Shaw <amanshaw4511@protonmail.com>"]
+authors = [{ name = "Aman Shaw", email = "amanshaw4511@protonmail.com" }]
+requires-python = "~=3.8"
 readme = "README.md"
 license = "GPL-3.0-or-later"
-maintainers = [
-    "Aman Shaw <amanshaw4511@protonmail.com>"
+maintainers = [{ name = "Aman Shaw", email = "amanshaw4511@protonmail.com" }]
+keywords = [
+  "jenkins",
+  "jenkins-cli",
+  "cli",
+  "command-line",
+  "automation",
+  "ci",
+  "continuous-integration",
+  "devops",
+  "build",
+  "job",
 ]
-homepage = "https://github.com/amanshaw4511/jenkinsctl"
-repository = "https://github.com/amanshaw4511/jenkinsctl"
-keywords = ["jenkins", "jenkin"]
+
 classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
   "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Environment :: Console",
+  "Topic :: Software Development :: Build Tools",
   "Operating System :: OS Independent",
 ]
+dependencies = [
+    "pyyaml>=6.0.2,<7",
+    "dynaconf>=3.2.6,<4",
+    "rich>=13.8.1,<14",
+    "python-dateutil>=2.9.0.post0,<3",
+    "requests>=2.32.3,<3",
+    "click>=8.1.7,<9",
+    "click-completion>=0.5.2,<0.6",
+]
 
-[tool.poetry.dependencies]
-python = "^3.8"
-pyyaml = "^6.0.2"
-dynaconf = "^3.2.6"
-rich = "^13.8.1"
-python-dateutil = "^2.9.0.post0"
-requests = "^2.32.3"
-click = "^8.1.7"
-click-completion = "^0.5.2"
+[project.urls]
+Documentation = "https://github.com/amanshaw4511/jenkinsctl#readme"
+Homepage = "https://github.com/amanshaw4511/jenkinsctl"
+Issues = "https://github.com/amanshaw4511/jenkinsctl/issues"
+Repository = "https://github.com/amanshaw4511/jenkinsctl"
 
+[project.scripts]
+jenkinsctl = "jenkinsctl.cli:cli"
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
-
-
-[tool.poetry.scripts]
-jenkinsctl = "jenkinsctl.cli:cli"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
