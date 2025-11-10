@@ -34,13 +34,13 @@ classifiers = [
   "Operating System :: OS Independent",
 ]
 dependencies = [
-    "pyyaml>=6.0.2,<7",
-    "dynaconf>=3.2.6,<4",
-    "rich>=13.8.1,<14",
-    "python-dateutil>=2.9.0.post0,<3",
-    "requests>=2.32.3,<3",
-    "click>=8.1.7,<9",
-    "click-completion>=0.5.2,<0.6",
+  "pyyaml>=6.0.2,<7",
+  "dynaconf>=3.2.6,<4",
+  "rich>=13.8.1,<14",
+  "python-dateutil>=2.9.0.post0,<3",
+  "requests>=2.32.3,<3",
+  "click>=8.1.7,<9",
+  "click-completion>=0.5.2,<0.6",
 ]
 
 [project.urls]
@@ -55,3 +55,10 @@ jenkinsctl = "jenkinsctl.cli:cli"
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "pre-commit>=3.5.0",
+    "pytest>=8.3.5",
+    "ruff>=0.14.4",
+]
