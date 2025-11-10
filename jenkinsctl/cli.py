@@ -21,6 +21,7 @@ click_completion.init()
 
 @click.group()
 @click.option('-v', '--verbose', is_flag=True, help="Enable verbose output")
+@click.version_option()
 @click.pass_context
 def cli(ctx: click.Context, verbose: bool) -> None:
     """A command-line tool to interact with Jenkins jobs"""
