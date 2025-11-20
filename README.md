@@ -44,6 +44,17 @@ Reload your shell profile:
 exec $SHELL
 ```
 
+## 🐳 Docker Usage
+You can run jenkinsctl directly via Docker:
+```sh
+docker run --rm \
+  -e JENKINS_SERVER_URL="https://your-jenkins.com" \
+  -e JENKINS_USERNAME="youruser" \
+  -e JENKINS_API_KEY="yourapikey" \
+  amanshaw4511/jenkinsctl:latest --help
+```
+
+
 ## Commands & Options 🤖
 All `jenkinsctl` commands are designed to be terminal-friendly with structured flags and arguments.
 
