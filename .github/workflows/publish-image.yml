@@ -51,7 +51,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
-            my-docker-hub-namespace/my-docker-hub-repository
+            amanshaw4511/jenkinsctl
             ghcr.io/${{ github.repository }}
 
       # -----------------------------------------
