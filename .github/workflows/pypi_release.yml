@@ -45,4 +45,4 @@ jobs:
           files: |
             dist/img2text_cli-${{ env.TAG_NAME }}-py3-none-any.whl
             dist/img2text_cli-${{ env.TAG_NAME }}.tar.gz
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.TOKEN_GITHUB }}
